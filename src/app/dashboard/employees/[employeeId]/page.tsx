@@ -1,6 +1,5 @@
 import EmployeeDetailsClient from './clientComponent';
 
-
 export type Attendance = {
   _id?: string;
   action: string;
@@ -20,6 +19,16 @@ export interface Employee {
   phone: string;
 }
 
+export interface EmployeeId {
+  _id: string;
+  employeeId: string;
+}
+
+
+interface EmployeePageProps {
+  params: { employeeId: string };
+}
+
 async function fetchAllEmployeeIds() {
   try {
     const response = await fetch('http://localhost:8888/api/v2/employee/get-ids', { cache: 'no-store' }); // Replace with your API
@@ -33,12 +42,12 @@ async function fetchAllEmployeeIds() {
 export async function generateStaticParams() {
   const employeeIds = await fetchAllEmployeeIds();
   console.log('Employee IDs:', employeeIds);
-  return employeeIds.map((employee: { _id: string }) => ({
+  return employeeIds.map((employee: EmployeeId) => ({
     employeeId: employee._id,
   }));
 }
 
-export default async function EmployeeDetails({ params }: { params: { employeeId: string } }) {
+export default async function EmployeeDetails({ params }: EmployeePageProps) {
   const employeeId = params.employeeId;
   console.log('Employee ID:', employeeId);
 
