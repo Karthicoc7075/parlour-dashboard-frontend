@@ -30,7 +30,7 @@ type Params = Promise<{ employeeId: string }>
 
  async function fetchEmployeeById(employeeId:string) {
   try {
-    const response = await fetch(`http://localhost:8888/api/v2/employee/${employeeId}`, { cache: 'no-store' }); // Replace with your API
+    const response = await fetch(`https://parlour-dashboard-33ace060f435.herokuapp.com/api/v2/employee/${employeeId}`, { cache: 'no-store' }); // Replace with your API
     const employee = await response.json();
     return employee;
   } catch (error) {
@@ -42,9 +42,7 @@ type Params = Promise<{ employeeId: string }>
 
 async function fetchAllEmployees() {
   try {
-
-    const response = await fetch(`http://localhost:8888/api/v2/employee/get-ids`, { cache: 'no-store' }); // Replace with your API
-    
+    const response = await fetch(`https://parlour-dashboard-33ace060f435.herokuapp.com/api/employee/v2/get-ids`, { cache: 'no-store' }); // Replace with your API
     console.log('Response status:', response.status);
     if(!response.ok) {
       throw new Error('Failed to fetch employee IDs');
