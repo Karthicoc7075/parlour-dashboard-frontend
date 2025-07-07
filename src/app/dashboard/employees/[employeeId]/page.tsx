@@ -63,7 +63,7 @@ export async function generateStaticParams() {
   const employees = await fetchAllEmployees();
 console.log('Fetched employee IDs:', employees);
   if (!Array.isArray(employees) || employees.length === 0) {
-    notFound(); 
+    return notFound();
   }
 
   return employees.map((employee) => ({
@@ -82,7 +82,7 @@ export default async function EmployeeDetails(props: { params: Params }) {
 const employee = await fetchEmployeeById(employeeId);
 
   if (!employee) {
-    notFound(); 
+    return notFound(); 
   }
   
 
