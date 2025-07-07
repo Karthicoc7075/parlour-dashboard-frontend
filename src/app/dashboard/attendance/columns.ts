@@ -35,15 +35,5 @@ export const columns: ColumnDef<Attendance>[] = [
         minute: "2-digit",
         second: "2-digit",
       }),
-  },
-  {
-    accessorKey: "timestamp",
-    header: "Date",
-    cell: ({ row }) => new Date(row.original.timestamp).toLocaleDateString(),
-  },
-  {
-    id: "actions",
-    header: "Actions",
-    cell: ({ row }) => row.original.employee.employeeId 
-  },
+  }
 ];
