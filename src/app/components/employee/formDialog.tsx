@@ -1,6 +1,6 @@
 'use client'
 import React,{useEffect, useState} from 'react'
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -9,20 +9,19 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../../components/ui/dialog";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 
 import {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import {fetchEmployeeById} from '@/lib/api/employee'
+} from "../../../components/ui/select";
+import {fetchEmployeeById} from '../../../lib/api/employee'
 
 
 type FormProps = {

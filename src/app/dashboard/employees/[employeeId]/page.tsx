@@ -14,11 +14,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
-import { fetchAttendanceByEmployee } from "@/lib/api/attendance";
-import {fetchEmployeeById} from '@/lib/api/employee' 
+} from "../../../../components/ui/table"
+import { Button } from "../../../../components/ui/button"
+import { fetchAttendanceByEmployee } from "../../../../lib/api/attendance";
+import {fetchEmployeeById} from '../../../../lib/api/employee' 
 import { useParams } from 'next/navigation'
+import Image from 'next/image'
 
 export type Attendance = {
   _id?: string;
@@ -67,7 +68,6 @@ function EmployeeDetails() {
     });
     const [AttendanceData, setAttendanceData] = useState([]);
     const [employeeData, setEmployeeData] = useState<Employee | null>(null);
-    const [fetchLoading, setFetchLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(0);
     const { employeeId } = useParams();
 
@@ -111,9 +111,7 @@ function EmployeeDetails() {
           setEmployeeData(data);
         } catch (error) {
           console.error("Error fetching employee data:", error);
-        } finally {
-          setFetchLoading(false);
-        }
+        } 
       }
       if (employeeId) {
         fetchEmployeeData();
@@ -127,7 +125,7 @@ function EmployeeDetails() {
       <div className='flex justify-center '>
           <div className="relative flex flex-col items-center p-4  w-full border rounded-lg bg-white shadow-md">
 
-            <img
+            <Image
               src="https://cdn1.iconfinder.com/data/icons/avatar-3/512/Manager-512.png"
               alt="Employee"
               className="w-20 h-20 rounded-full mb-2"

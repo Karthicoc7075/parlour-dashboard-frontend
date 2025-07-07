@@ -1,13 +1,13 @@
 'use client';
-import React, { useState, useEffect, use } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardHeader,
   CardTitle,
   CardDescription,
   CardFooter,
-} from "@/components/ui/card";
-import { fetchDashboardData} from '@/lib/api/dashboard'; 
+} from "../../components/ui/card";
+import { fetchDashboardData} from '../../lib/api/dashboard'; 
 
 export interface DashboardData {
   id: string;

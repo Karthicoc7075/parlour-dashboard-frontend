@@ -20,7 +20,7 @@ export async function fetchAttendance(pageIndex: number = 0, pageSize: number = 
   return response.json();
 }
 
-export async function createAttendance(attendanceData:Record<string, any>) {
+export async function createAttendance(attendanceData:Record<string, string>) {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/attendance/create`, {
     method: 'POST',

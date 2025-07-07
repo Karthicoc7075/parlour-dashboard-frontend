@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { Button } from "@/components/ui/button";
+import { Button } from "../../..//components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,9 +8,9 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from "../../..//components/ui/dialog";
+import { Input } from "../../../components/ui/input";
+import { Label } from "../../../components/ui/label";
 import {
   Select,
   SelectContent,
@@ -19,9 +19,9 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import {fetchEmployeeIds} from '@/lib/api/employee'
-import { fetchTaskById } from '@/lib/api/task';
+} from "../../../components/ui/select";
+import {fetchEmployeeIds} from '../../../lib/api/employee'
+import { fetchTaskById } from '../../../lib/api/task';
 
 
 type FormProps = {
@@ -39,12 +39,17 @@ export interface Task {
   status: string;
 }
 
+export interface EmployeeId {
+  _id: string;
+  employeeId: string;
+}
+
 function FormDialog({mode, taskId, onSubmit }: FormProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [assignee, setAssignee] = useState("");
   const [status, setStatus] = useState("");
-  const [employeeIds, setEmployeeIds] = useState<any[]>([]);
+  const [employeeIds, setEmployeeIds] = useState<EmployeeId[]>([]);
   const [Open, setOpen] = useState(false);
 
     const fetchIds = async () => {

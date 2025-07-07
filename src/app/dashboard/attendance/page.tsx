@@ -1,5 +1,4 @@
 'use client'
-import { time, timeStamp } from 'console';
 import React,{useState,useEffect} from 'react'
 import {
   ColumnDef,
@@ -15,11 +14,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Button } from "@/components/ui/button"
+} from "../../../components/ui/table"
+import { Button } from "../../../components/ui/button"
 import Link from "next/link";
-import { fetchAttendance } from "@/lib/api/attendance"; 
-import { useAttendanceSocket } from "@/hooks/useSocket";
+import { fetchAttendance } from "../../..//lib/api/attendance"; 
+import { useAttendanceSocket } from "../../../hooks/useSocket";
 
 export type Attendance = {
   _id: string;
@@ -86,7 +85,6 @@ function Attendance() {
     pageIndex: 0,
     pageSize: 5, 
   });
-  const [loading, setLoading] = useState(true);
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
   const [totalPages, setTotalPages] = useState(0);
  const { updates,deletes,setDeletes,setUpdates } = useAttendanceSocket();
@@ -110,16 +108,13 @@ function Attendance() {
 
   useEffect(() => {
     async function fetchData() {
-      setLoading(true);
       try {
         const response = await fetchAttendance(pagination.pageIndex + 1, pagination.pageSize);
         setAttendanceData(response.attendance);
         setTotalPages(response.pagination.totalPages);
       } catch (error) {
         console.error("Error fetching attendance data:", error);
-      } finally {
-        setLoading(false);
-      }
+      } 
     }
     fetchData();
   }, [pagination.pageIndex, pagination.pageSize]);

@@ -7,8 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "../../../components/ui/dialog";
+import { Button } from "../../../components/ui/button";
 
 function DeleteDialog({ taskId, onDelete }: { taskId: string; onDelete: (taskId: string) => void; }) {
 

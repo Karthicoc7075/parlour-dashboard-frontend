@@ -1,19 +1,19 @@
 'use client';
 import React,{useState,useEffect} from "react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "../../../components/ui/dropdown-menu";
 import FormDialog from "../../components/employee/formDialog";
 import DeleteDialog from "../../components/employee/deleteDialog";
 import { fetchEmployees,createEmployee,updateEmployee,deleteEmployee } from "../../../lib/api/employee";
 import { toast } from "sonner";
 import Skeleton from "./skeleton";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
+import Image from "next/image";
 
 export interface Employee {
   _id?: string;
@@ -166,7 +166,7 @@ function EmployeesPage() {
             </div>
               )
             }
-            <img
+            <Image
               src="/images/profile.png"
               alt="Employee"
               className="w-20 h-20 rounded-full mb-2"
