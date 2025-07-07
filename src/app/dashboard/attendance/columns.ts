@@ -1,6 +1,4 @@
 import { ColumnDef } from "@tanstack/react-table";
-import Link from "next/link";
-import { Button } from "../../../components/ui/button"; // Adjust path to your Button component
 export type Attendance = {
   _id: string;
   action: string;
