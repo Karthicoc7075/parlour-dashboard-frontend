@@ -5,17 +5,31 @@ import { io } from 'socket.io-client';
 
 const socket = io('http://localhost:8888'); 
 
-export function useAttendanceSocket() {
-  const [updates, setUpdates] = useState<any[]>([]);
-  const [deletes, setDeletes] = useState<any[]>([]);
+export type Attendance = {
+   _id: string;
+  action: string;
+  employee: {
+    _id: string;
+    name: string;
+    employeeId: string;
+    email: string;
+  };
+  timestamp: string;
+};
 
+export function useAttendanceSocket() {
+  const [updates, setUpdates] = useState<Attendance[]>([]);
+  const [deletes, setDeletes] = useState<Attendance[]>([]);
+
+
+
+  console.log(updates)
   useEffect(() => {
-    console.log('🔌 Connecting to socket.io server...');
     socket.on('connect', () => {
-      console.log('✅ Connected to socket.io server');
+      console.log('Connected to socket.io server');
     });
     socket.on('attendance_update', (data) => {
-      console.log('📡 New attendance:', data);
+      console.log('New attendance:', data);
       setUpdates((prev) => [data, ...prev]);
     });
 

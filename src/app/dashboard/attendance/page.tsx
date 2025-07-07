@@ -133,7 +133,7 @@ function Attendance() {
     }
   if (deletes && deletes.length > 0) {
     setAttendanceData((prevData: Attendance[]) => 
-      prevData.filter((item) => !deletes[0].map((del: Attendance) => del._id == item._id))
+      prevData.filter((item) => !deletes.map((del: Attendance) => del._id == item._id))
     );
     setDeletes([])
 }

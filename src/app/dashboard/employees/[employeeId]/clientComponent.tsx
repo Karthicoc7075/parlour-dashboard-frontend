@@ -61,12 +61,6 @@ export const columns: ColumnDef<Attendance>[] = [
   },
 ];
 
-interface EmployeeDetailsClientProps {
-  initialEmployeeData: Employee | null;
-  initialAttendanceData: Attendance[];
-  initialTotalPages: number;
-  employeeId: string;
-}
 
 export default function EmployeeDetailsClient({
   employeeId }: { employeeId: string }) {
