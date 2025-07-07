@@ -1,12 +1,12 @@
-'use client'
-import React,{useEffect,useState} from 'react'
+'use client';
+import React, { useEffect, useState } from 'react';
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
   getPaginationRowModel,
-} from "@tanstack/react-table"
+} from '@tanstack/react-table';
 import {
   Table,
   TableBody,
@@ -14,12 +14,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../../../components/ui/table"
-import { Button } from "../../../../components/ui/button"
-import { fetchAttendanceByEmployee } from "../../../../lib/api/attendance";
-import {fetchEmployeeById} from '../../../../lib/api/employee' 
-import Image from 'next/image'
-
+} from '../../../../components/ui/table';
+import { Button } from '../../../../components/ui/button';
+import { fetchAttendanceByEmployee } from '../../../../lib/api/attendance';
+import Image from 'next/image';
+import { fetchEmployeeById } from '../../../../lib/api/employee';
+import Loader from '../../../components/loader/loader';
 export type Attendance = {
   _id?: string;
   action: string;
@@ -36,90 +36,109 @@ export interface Employee {
   employeeId?: string;
   name: string;
   email: string;
-  phone: string;}
+  phone: string;
+}
 
 export const columns: ColumnDef<Attendance>[] = [
-
   {
-    accessorKey: "action",
-    header: "Action",
-  },
-
-  {
-    accessorKey: "timeStamp",
-    header: "Time",
-    cell: ({ row }) =>
-      new Date(row.original.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }), 
+    accessorKey: 'action',
+    header: 'Action',
   },
   {
-    accessorKey: "timeStamp",
-    header: "Date",
+    accessorKey: 'timestamp',
+    header: 'Time',
     cell: ({ row }) =>
-      new Date(row.original.timestamp).toLocaleDateString(), 
+      new Date(row.original.timestamp).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      }),
+  },
+  {
+    accessorKey: 'timestamp',
+    header: 'Date',
+    cell: ({ row }) => new Date(row.original.timestamp).toLocaleDateString(),
   },
 ];
 
+interface EmployeeDetailsClientProps {
+  initialEmployeeData: Employee | null;
+  initialAttendanceData: Attendance[];
+  initialTotalPages: number;
+  employeeId: string;
+}
 
-function clientComponent({ employeeId }: { employeeId: string | string[] }) {
-     const [pagination, setPagination] = useState({
-      pageIndex: 0,
-      pageSize: 5, 
-    });
-    const [AttendanceData, setAttendanceData] = useState([]);
-    const [employeeData, setEmployeeData] = useState<Employee | null>(null);
-    const [totalPages, setTotalPages] = useState(0);
+export default function EmployeeDetailsClient({
+  employeeId }: { employeeId: string }) {
+  const [pagination, setPagination] = useState({
+    pageIndex: 0,
+    pageSize: 5,
+  });
+  const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
+  const [employeeData, setEmployeeData] = useState<Employee | null>(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function fetchData() {
+      if (!employeeId) return;
+      try {
+        const employeeResponse = await fetchEmployeeById(employeeId);
+        setEmployeeData(employeeResponse);
 
+        const attendanceResponse = await fetchAttendanceByEmployee(
+          employeeId,
+          pagination.pageIndex + 1,
+          pagination.pageSize
+        );
+        setAttendanceData(attendanceResponse.attendance);
+        setTotalPages(attendanceResponse.pagination.totalPages);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    fetchData();
+  }, [employeeId, pagination.pageIndex, pagination.pageSize]);
 
-    const table = useReactTable({
-      data: AttendanceData,
-      columns,
-      state: {
-        pagination,
-      },
-      onPaginationChange: setPagination,
-      getCoreRowModel: getCoreRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      manualPagination: true, 
-      pageCount: totalPages,
-      getRowId: (row) => row._id || row.employee.employeeId,
-    });
+  const table = useReactTable({
+    data: attendanceData,
+    columns,
+    state: { pagination },
+    onPaginationChange: setPagination,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    manualPagination: true,
+    pageCount: totalPages,
+    getRowId: (row) => row._id || row.employee.employeeId,
+  });
 
-
-
-    useEffect(() => {
-      async function fetchData() {
-        const id = Array.isArray(employeeId) ? employeeId[0] : employeeId;
-        if (!id) return;
-        const response = await fetchAttendanceByEmployee(id, pagination.pageIndex + 1, pagination.pageSize);
+  useEffect(() => {
+    async function fetchData() {
+      if (!employeeId) return;
+      try {
+        const response = await fetchAttendanceByEmployee(employeeId, pagination.pageIndex + 1, pagination.pageSize);
         setAttendanceData(response.attendance);
         setTotalPages(response.pagination.totalPages);
+      } catch (error) {
+        console.error('Error fetching attendance data:', error);
       }
-      if (employeeId) {
-        fetchData();
-      }
-    }, [employeeId, pagination.pageIndex, pagination.pageSize]);
+    }
+    if (employeeId && pagination.pageIndex !== 0) {
+      fetchData(); // Fetch new data only for subsequent pages
+    }
+  }, [employeeId, pagination.pageIndex, pagination.pageSize]);
 
-    useEffect(() => {
-      async function fetchEmployeeData() {
-        const id = Array.isArray(employeeId) ? employeeId[0] : employeeId;
-        if (!id) return;
-        try {
-          const data = await fetchEmployeeById(id);
-          setEmployeeData(data);
-        } catch (error) {
-          console.error("Error fetching employee data:", error);
-        } 
-      }
-      if (employeeId) {
-        fetchEmployeeData();
-      }
-    }, [employeeId]);
-    
   return (
     <div className="flex flex-col items-center  md:ml-64  p-4 h-screen">
       <h1 className="text-2xl font-bold mb-4">Employee Details</h1>
-      <div className='flex justify-center '>
+      {loading ? (
+        <div className="flex items-center justify-center h-[70dvh]">
+          <Loader />
+        </div>
+      ) : 
+      <div>
+        <div className='flex justify-center '>
           <div className="relative flex flex-col items-center p-4  w-full border rounded-lg bg-white shadow-md">
 
             <Image
@@ -193,8 +212,7 @@ function clientComponent({ employeeId }: { employeeId: string | string[] }) {
         </div>
       </div>
         </div>
+      </div>}
         </div>
   )
 }
-
-export default clientComponent
