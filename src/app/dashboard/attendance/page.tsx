@@ -130,11 +130,21 @@ console.log('attendanceData',attendanceData);
         <TableBody>
           {table.getRowModel().rows.map((row) => (
             <TableRow key={row.id } className='border-b-1  ' >
-              {row.getVisibleCells().map((cell,i) => (
-                <TableCell key={i} className='text-center py-8 ' >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </TableCell>
-              ))}
+              {row.getVisibleCells().map((cell, i) =>
+                cell.column.columnDef.header === "Actions" ? (
+                  <TableCell key={i} className='text-center py-8 ' >
+                    <Link href={`/dashboard/employees/${row.original.employee._id}`}>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
+                    </Link>
+                  </TableCell>
+                ) : (
+                  <TableCell key={i} className='text-center py-8 ' >
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                )
+              )}
             </TableRow>
           ))}
         </TableBody>

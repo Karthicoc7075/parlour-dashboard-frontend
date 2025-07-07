@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-
+import { Button } from "../../../components/ui/button"; // Adjust path to your Button component
 export type Attendance = {
   _id: string;
   action: string;
@@ -45,15 +45,7 @@ export const columns: ColumnDef<Attendance>[] = [
   },
   {
     id: "actions",
-    header: "View",
-    cell: ({ row }: { row: { original: Attendance } }) => {
-      const employeeId = row.original.employee._id;
-      return (
-        // @ts-ignore
-        <Link href={`/dashboard/employees/${employeeId}`}>
-          View
-        </Link>
-      );
-    },
+    header: "Actions",
+    cell: ({ row }) => row.original.employee.employeeId 
   },
 ];
