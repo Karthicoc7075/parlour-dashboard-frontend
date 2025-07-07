@@ -20,65 +20,7 @@ import Link from "next/link";
 import { fetchAttendance } from "../../..//lib/api/attendance"; 
 import { useAttendanceSocket } from "../../../hooks/useSocket";
 import Loader from '../../components/loader/loader'
-
-export type Attendance = {
-  _id: string;
-  action: string;
-  employee: {
-    _id: string;
-    name: string;
-    employeeId: string;
-    email: string;
-  };
-  timestamp: string;
-};
-
-export const columns: ColumnDef<Attendance>[] = [
-  {
-    accessorKey: "employee.employeeId",
-    header: "Employee ID",
-    cell: ({ row }) => row.original.employee.employeeId,
-  },
-  {
-    accessorKey: "employee.name",
-    header: "Employee Name",
-    cell: ({ row }) => row.original.employee.name,
-  },
-  {
-    accessorKey: "action",
-    header: "Action",
-  },
-  {
-    accessorKey: "timestamp", // Fixed typo
-    header: "Time",
-    cell: ({ row }) =>
-      new Date(row.original.timestamp).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }),
-  },
-  {
-    accessorKey: "timestamp", // Fixed typo
-    header: "Date",
-    cell: ({ row }) => new Date(row.original.timestamp).toLocaleDateString(),
-  },
-  {
-    id: "actions",
-    header: "View",
-    cell: ({ row }) => {
-      const employeeId = row.original.employee._id;
-      return (
-        <Link
-          href={`/dashboard/employees/${employeeId}`}
-          className="p-2 text-gray-500 border-1 shadow-sm rounded hover:text-gray-700 transition-colors duration-200"
-        >
-          View
-        </Link>
-      );
-    },
-  },
-];
+import { type Attendance as AttendanceType,columns } from './columns'; 
 
 
 
@@ -87,7 +29,7 @@ function Attendance() {
     pageIndex: 0,
     pageSize: 5, 
   });
-  const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
+  const [attendanceData, setAttendanceData] = useState<AttendanceType[]>([]);
   const [totalPages, setTotalPages] = useState(0);
  const { updates,deletes,setDeletes,setUpdates } = useAttendanceSocket();
   const [loading, setLoading] = useState(true);
@@ -128,13 +70,13 @@ function Attendance() {
   useEffect(() => {
     if (updates && updates.length > 0) {
       if (Array.isArray(updates)) {
-        setAttendanceData((prevData: Attendance[]) => [...updates, ...prevData]);
+        setAttendanceData((prevData: AttendanceType[]) => [...updates, ...prevData]);
         setUpdates([])
       } 
     }
   if (deletes && deletes.length > 0) {
-    setAttendanceData((prevData: Attendance[]) => 
-      prevData.filter((item) => !deletes.map((del: Attendance) => del._id == item._id))
+    setAttendanceData((prevData: AttendanceType[]) => 
+      prevData.filter((item) => !deletes.map((del: AttendanceType) => del._id == item._id))
     );
     setDeletes([])
 }
