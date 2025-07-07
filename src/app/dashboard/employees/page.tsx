@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import Skeleton from "./skeleton";
 import { useAuth } from "../../../context/AuthContext";
 import Image from "next/image";
-
+import { prefix } from "../../../utils/prefix";
 export interface Employee {
   _id?: string;
   employeeId?: string;
@@ -168,7 +168,7 @@ function EmployeesPage() {
               )
             }
             <Image
-              src="/images/profile.png"
+              src={`${prefix}/images/profile.png`}
               alt="Employee"
               className="w-20 h-20 rounded-full mb-2"
               width={80}
