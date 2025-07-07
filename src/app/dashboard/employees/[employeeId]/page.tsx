@@ -25,9 +25,8 @@ export interface EmployeeId {
 }
 
 
-interface EmployeePageProps {
-  params: {  employeeId: string };
-}
+
+type Params = Promise<{ employeeId: string }>
 
  async function fetchEmployeeById(employeeId:string) {
   try {
@@ -74,7 +73,8 @@ console.log('Fetched employee IDs:', employees);
   }));
 }
 
-export default async function EmployeeDetails({ params }: EmployeePageProps) {
+export default async function EmployeeDetails(props: { params: Params }) {
+  const params = await props.params;
   const employeeId = params.employeeId;
   console.log('Employee ID:', employeeId);
 
