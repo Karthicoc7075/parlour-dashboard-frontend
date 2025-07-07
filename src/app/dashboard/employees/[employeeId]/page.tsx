@@ -1,8 +1,6 @@
-// app/dashboard/employees/[employeeId]/page.tsx
-
 import EmployeeDetailsClient from './clientComponent';
 
-// Define types
+
 export type Attendance = {
   _id?: string;
   action: string;
@@ -22,7 +20,6 @@ export interface Employee {
   phone: string;
 }
 
-// Fetch all employee IDs for static generation
 async function fetchAllEmployeeIds() {
   try {
     const response = await fetch('http://localhost:8888/api/v2/employee/get-ids', { cache: 'no-store' }); // Replace with your API
@@ -33,8 +30,6 @@ async function fetchAllEmployeeIds() {
     return [];
   }
 }
-
-// Export generateStaticParams
 export async function generateStaticParams() {
   const employeeIds = await fetchAllEmployeeIds();
   console.log('Employee IDs:', employeeIds);

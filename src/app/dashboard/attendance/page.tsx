@@ -34,7 +34,7 @@ export type Attendance = {
 };
 
 export const columns: ColumnDef<Attendance>[] = [
-    {
+  {
     accessorKey: "employee.employeeId",
     header: "Employee ID",
     cell: ({ row }) => row.original.employee.employeeId,
@@ -48,27 +48,30 @@ export const columns: ColumnDef<Attendance>[] = [
     accessorKey: "action",
     header: "Action",
   },
-
   {
-    accessorKey: "timeStamp",
+    accessorKey: "timestamp", // Fixed typo
     header: "Time",
     cell: ({ row }) =>
-      new Date(row.original.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+      new Date(row.original.timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+      }),
   },
   {
-    accessorKey: "timeStamp",
+    accessorKey: "timestamp", // Fixed typo
     header: "Date",
-    cell: ({ row }) =>
-      new Date(row.original.timestamp).toLocaleDateString()
+    cell: ({ row }) => new Date(row.original.timestamp).toLocaleDateString(),
   },
-    {
+  {
     id: "actions",
     header: "View",
     cell: ({ row }) => {
       const employeeId = row.original.employee._id;
       return (
-        <Link href={`/dashboard/employees/${employeeId}`}
-            className="p-2 text-gray-500 border-1 shadow-sm rounded hover:text-gray-700 transition-colors duration-200"
+        <Link
+          href={`/dashboard/employees/${employeeId}`}
+          className="p-2 text-gray-500 border-1 shadow-sm rounded hover:text-gray-700 transition-colors duration-200"
         >
           View
         </Link>
@@ -76,8 +79,6 @@ export const columns: ColumnDef<Attendance>[] = [
     },
   },
 ];
-
-
 
 
 
