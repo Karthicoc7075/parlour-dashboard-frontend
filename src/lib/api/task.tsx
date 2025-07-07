@@ -1,6 +1,16 @@
 import { getToken } from "./utils";
 import { toast } from "sonner";
 
+
+export interface Task {
+  _id?: string;
+  title: string;
+  description: string;
+  assignee: string;
+  status: string;
+  createdAt?: string;
+}
+
 export async function fetchTasks() {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/task`, {
@@ -38,7 +48,7 @@ export async function fetchTaskById(taskId: string) {
 
 
 
-export async function createTask(taskData: any) {
+export async function createTask(taskData: Task) {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/task/create`, {
     method: 'POST',
@@ -58,7 +68,7 @@ export async function createTask(taskData: any) {
 }
 
 
-export async function updateTask(taskId: string, taskData: any) {
+export async function updateTask(taskId: string, taskData: Task) {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/task/${taskId}`, {
     method: 'PUT',

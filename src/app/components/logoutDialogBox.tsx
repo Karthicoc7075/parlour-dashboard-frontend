@@ -1,6 +1,6 @@
 import React from 'react'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,DialogTrigger, DialogClose } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter,DialogTrigger, DialogClose } from "../../components/ui/dialog";
+import { Button } from "../../components/ui/button";
 
 
 function LogoutDialogBox() {
@@ -9,7 +9,8 @@ function LogoutDialogBox() {
         localStorage.removeItem('role');
         localStorage.removeItem('user');
        window.location.href = '/login';
-    };
+
+      };
 
 
   return (

@@ -1,6 +1,14 @@
 import { getToken  } from "./utils";
 import { toast } from "sonner";
 
+export interface Employee {
+  _id?: string;
+  employeeId?: string;
+  name: string;
+  email: string;
+  phone: string;
+  present?: boolean;
+}
 
 export async function fetchEmployees() {
   const token = getToken();
@@ -65,7 +73,7 @@ export async function fetchEmployeeIds() {
   return response.json();
 }
 
-export async function createEmployee(employeeData: any) {
+export async function createEmployee(employeeData: Employee) {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/create`, {
     method: 'POST',
@@ -91,7 +99,7 @@ export async function createEmployee(employeeData: any) {
   return data.employee;
 }
 
-export async function updateEmployee(employeeId: string, employeeData: any) {
+export async function updateEmployee(employeeId: string, employeeData: Employee) {
   const token = getToken();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/employee/${employeeId}`, {
     method: 'PUT',

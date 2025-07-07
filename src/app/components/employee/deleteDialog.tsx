@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import {
     Dialog,
     DialogClose,
@@ -9,7 +9,7 @@ import {
     DialogHeader,
     DialogTitle,
     DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../../components/ui/dialog";
 
 function DeleteDialog({ employeeId, onDelete }: { employeeId: string; onDelete: (id: string) => void; }) {
     const handleClick = (event: React.MouseEvent<HTMLParagraphElement>) => {

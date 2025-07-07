@@ -2,10 +2,11 @@
 
 import * as React from "react";
 
-import { fetchEmployees } from "@/lib/api/employee"; 
+import { fetchEmployees } from "../../lib/api/employee"; 
 import DialogBox from "./dialogBox";
-import { createAttendance } from '@/lib/api/attendance'
+import { createAttendance } from '../../lib/api/attendance'
 import {toast} from "sonner";
+import Loader from "../components/loader/loader";
 
 export type Employee = {
   _id: string;
@@ -18,11 +19,13 @@ export type Employee = {
 };
 export default function AttendancePage() {
   const [employees, setEmployees] = React.useState<Employee[]>([]);
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
     const getEmployees = async () => {
       const data = await fetchEmployees();
       setEmployees(data);
+      setLoading(false);
     };
     getEmployees();
   }, []);
@@ -44,11 +47,19 @@ export default function AttendancePage() {
     console.log("Updated Employee:", updatedEmployee);
   };
 
+  
+
   return (
     <div className="w-full max-w-6xl mx-auto p-4 ">
      <div className="flex justify-between items-center my-6">
        <h3 className="text-2xl font-semibold mb-4">Attendance</h3>
      </div>
+
+    {loading ?
+      <div className="flex items-center justify-center h-[70dvh]">
+                <Loader />
+              </div>
+  :
    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
      {employees.map((employee) => (
        <div key={employee._id} className=" p-6 rounded-lg bg-white border-4 border-t-red-500 border-b-green-500  border-l-blue-500 border-r-yellow-500   shadow-md w-full">
@@ -61,7 +72,7 @@ export default function AttendancePage() {
        </div>
      ))}
    </div>
-            
+} 
           </div>
 
     

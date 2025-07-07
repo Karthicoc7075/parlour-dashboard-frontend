@@ -1,13 +1,12 @@
 'use client';
-import React,{useState,useEffect} from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
+import React, { useState, useEffect } from "react";
+import { Badge } from "../../../components/ui/badge";
 import FormDialog from "../../components/tasks/formDialog";
 import DeleteDialog from "../../components/tasks/deleteDialog";
-import { fetchTasks, createTask, updateTask, deleteTask } from "@/lib/api/task";
+import { fetchTasks, createTask, updateTask, deleteTask } from "../../../lib/api/task";
 import { toast } from "sonner";
 import Skeleton from "./skeleton";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "../../../context/AuthContext";
 
 export interface Task {
   _id?: string;
@@ -30,11 +29,11 @@ function Tasks() {
         const loadTasks = async () => {
             const tasks = await fetchTasks();
             setTasks(tasks);
-            
+            setLoading(false);
         };
 
         loadTasks();
-        setLoading(false);
+        
     }, []);
 
     const handleCreateTask = async (taskData: Task) => {
@@ -76,24 +75,7 @@ function Tasks() {
     };
 
 
-console.log(loading, tasks);
-    if (!loading && tasks.length === 0) {
-      return (
-        <div className="flex items-center justify-center h-screen md:ml-64"> 
-          <div className="text-center">
-            <h2 className="text-2xl font-bold mb-4">No Tasks Found</h2>
-            {
-              user?.role === 'super_admin' && (
-              <div>
-                <p className="text-gray-600 mb-4">You can create a new task using the button above.</p>
-            <FormDialog mode="Add" onSubmit={handleCreateTask} />
-              </div>
-              )
-            }
-          </div>
-        </div>
-      );
-    }
+
 
   return (
     <div className="flex-1 p-6 md:ml-64 overflow-y-auto">
@@ -106,12 +88,27 @@ console.log(loading, tasks);
 
       <div className="mt-10">
         {loading ? (
-          <div className=" grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4   gap-4" >
-             {Array.from({ length: 4 }).map((_, index) => (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
+                {Array.from({ length: 4 }).map((_, index) => (
                   <Skeleton key={index} />
                 ))}
+              </div>
+        ) :
+        tasks.length === 0 && !loading ? (
+          <div className="flex items-center justify-center h-screen md:ml-64"> 
+            <div className="text-center">
+              <h2 className="text-2xl font-bold mb-4">No Tasks Found</h2>
+              {
+                user?.role === 'super_admin' && (
+              <div>
+                <p className="text-gray-600 mb-4">You can create a new task using the button above.</p>
+            <FormDialog mode="Add" onSubmit={handleCreateTask} />
+              </div>
+              )
+            }
           </div>
-        ) :(
+        </div>):
+        (
           <ul className=" grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4   gap-4">
          {tasks.map((task) => (
              <li key={task._id} className="p-4  border-t-4 border-gray-500 rounded-lg bg-white shadow-md">

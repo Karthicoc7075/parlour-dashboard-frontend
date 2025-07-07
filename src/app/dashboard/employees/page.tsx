@@ -24,6 +24,8 @@ export interface Employee {
   present: boolean;
 }
 
+
+
 function EmployeesPage() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [fetchLoading, setFetchLoading] = useState(true);
@@ -85,21 +87,6 @@ function EmployeesPage() {
   };
   
 
-  if (!fetchLoading && employees.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-screen md:ml-64 ">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold mb-4">No Employees Found</h2>
-          {user?.role === 'super_admin' && (
-            <div>
-              <p className="text-gray-600 mb-4">You can create a new employee using the button above.</p>
-              <FormDialog mode="create" onSubmit={handleCreateEmployee} />
-            </div>
-          )}
-        </div>
-      </div>
-    );
-  }
 
 
 
@@ -122,11 +109,25 @@ function EmployeesPage() {
                   <Skeleton key={index} />
                 ))}
               </div>
-            ) : (
+            ) :
+            employees.length === 0  && !fetchLoading ? (
+             <div className="flex items-center justify-center h-screen md:ml-64 ">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold mb-4">No Employees Found</h2>
+          {user?.role === 'super_admin' && (
+            <div>
+              <p className="text-gray-600 mb-4">You can create a new employee using the button above.</p>
+              <FormDialog mode="create" onSubmit={handleCreateEmployee} />
+            </div>
+          )}
+        </div>
+      </div>):
+            
+            (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
              {
-              employees.map((employee) => (
-                  <li className="relative flex flex-col items-center p-4  rounded-lg bg-white  z-5 shadow-md border-t-4  border-gray-500  ">
+              employees.map((employee,i) => (
+                  <li key={i} className="relative flex flex-col items-center p-4  rounded-lg bg-white  z-5 shadow-md border-t-4  border-gray-500  ">
             {
               user?.role === 'super_admin' && (
                 <div className="absolute top-6 right-10">
@@ -170,6 +171,8 @@ function EmployeesPage() {
               src="/images/profile.png"
               alt="Employee"
               className="w-20 h-20 rounded-full mb-2"
+              width={80}
+              height={80}
             />
             <h3 className="font-bold">{employee.name}</h3>
             <div className="flex flex-col gap-4  p-4 w-full bg-gray-100 rounded-lg mt-2">

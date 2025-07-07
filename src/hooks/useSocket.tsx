@@ -10,6 +10,10 @@ export function useAttendanceSocket() {
   const [deletes, setDeletes] = useState<any[]>([]);
 
   useEffect(() => {
+    console.log('🔌 Connecting to socket.io server...');
+    socket.on('connect', () => {
+      console.log('✅ Connected to socket.io server');
+    });
     socket.on('attendance_update', (data) => {
       console.log('📡 New attendance:', data);
       setUpdates((prev) => [data, ...prev]);

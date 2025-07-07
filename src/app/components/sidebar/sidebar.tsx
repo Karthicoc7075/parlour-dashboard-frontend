@@ -27,7 +27,7 @@ export default function AppSidebar() {
 <div className=" relative h-full px-3 py-4   dark:bg-gray-800 rounded-2xl bg-[#fff] shadow-md"> 
 
     <div className='flex gap-4 p-4 rounded-2xl bg-gray-100 dark:bg-gray-700 shadow-md'>
-        <Image src="http://iamkarthi.me/frontend/static/media/avatar-25.fbf48a8e618943324923.webp" alt="Logo" className="w-10 h-10 rounded-full" />
+        <Image src="http://iamkarthi.me/frontend/static/media/avatar-25.fbf48a8e618943324923.webp" alt="Logo" className="w-10 h-10 rounded-full" width={80} height={80} />
         <div className='flex flex-col'>
             <span className='text-gray-900 dark:text-white font-semibold capitalize '>{user?.user.name}</span>
             <span className='text-gray-500 dark:text-gray-300 text-sm capitalize'>{user?.role}</span>

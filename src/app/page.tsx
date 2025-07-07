@@ -11,7 +11,7 @@ export default function Home() {
       <p className="text-md text-center mb-8  bg-gradient-to-r from-slate-300 to-slate-500 text-transparent bg-clip-text">
         Welcome to the Attendance System. Please click the button below to go to the attendance page.
       </p>
-      <Image className={"w-100 h-100"}  src="/images/work.png" alt="Work Illustration" />
+      <Image className={"w-100 h-100"}  src="/images/work.png" alt="Work Illustration" width={400} height={300} />
       <div className="flex items-center justify-center gap-6 " >
                 <Button className="bg-gradient-to-r from-indigo-400 to-cyan-400 font-bold" >
         <a href="/attendance">Go to Attendance</a>

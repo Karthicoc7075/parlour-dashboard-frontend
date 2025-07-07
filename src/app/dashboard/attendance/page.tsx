@@ -19,6 +19,7 @@ import { Button } from "../../../components/ui/button"
 import Link from "next/link";
 import { fetchAttendance } from "../../..//lib/api/attendance"; 
 import { useAttendanceSocket } from "../../../hooks/useSocket";
+import Loader from '../../components/loader/loader'
 
 export type Attendance = {
   _id: string;
@@ -88,7 +89,7 @@ function Attendance() {
   const [attendanceData, setAttendanceData] = useState<Attendance[]>([]);
   const [totalPages, setTotalPages] = useState(0);
  const { updates,deletes,setDeletes,setUpdates } = useAttendanceSocket();
-
+  const [loading, setLoading] = useState(true);
 
 
  
@@ -112,6 +113,7 @@ function Attendance() {
         const response = await fetchAttendance(pagination.pageIndex + 1, pagination.pageSize);
         setAttendanceData(response.attendance);
         setTotalPages(response.pagination.totalPages);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching attendance data:", error);
       } 
@@ -131,7 +133,7 @@ function Attendance() {
     }
   if (deletes && deletes.length > 0) {
     setAttendanceData((prevData: Attendance[]) => 
-      prevData.filter((item) => !deletes[0].map((del:any) => del._id == item._id))
+      prevData.filter((item) => !deletes[0].map((del: Attendance) => del._id == item._id))
     );
     setDeletes([])
 }
@@ -141,6 +143,7 @@ function Attendance() {
 console.log('attendanceData',attendanceData);
   return (
     <div>
+    
         <div className="flex-1 p-6 md:ml-64 overflow-y-auto">
             <div className="flex justify-between ml-10 md:ml-0">
             <h1 className="text-2xl font-bold mb-4">Attendance</h1>
@@ -156,7 +159,18 @@ console.log('attendanceData',attendanceData);
               </Button>
             </div>
             </div>
-        
+
+             {loading ? (
+               <div className="flex items-center justify-center h-[70dvh]">
+                <Loader />
+              </div>
+            ) : 
+              !loading && attendanceData.length === 0 ? (
+              <div className="flex items-center justify-center h-[70dvh]">
+                <p className="text-gray-500">No attendance records found.</p>
+              </div>
+            ) : (
+              <div>
             <div className="rounded-md  shadow-sm overflow-hidden mt-4">
       <Table>
         <TableHeader  >
@@ -207,6 +221,8 @@ console.log('attendanceData',attendanceData);
           </Button>
         </div>
       </div>
+            </div>
+            )}
         </div>
     </div>
   )

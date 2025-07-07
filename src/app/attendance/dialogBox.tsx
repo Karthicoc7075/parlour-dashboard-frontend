@@ -1,7 +1,7 @@
 import React from 'react'
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Button } from "../../components/ui/button";
+import { Input } from "../../components/ui/input";
+import { Label } from "../../components/ui/label";
 import {
   Dialog,
   DialogClose,
@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from "../../components/ui/dialog";
 
 function DialogBox({ isPresent, employeeId, onSubmit }: { isPresent: boolean; employeeId: string; onSubmit: (pin: string) => void }) {
     const [pin, setPin] = React.useState<string>("");
@@ -23,6 +23,8 @@ function DialogBox({ isPresent, employeeId, onSubmit }: { isPresent: boolean; em
     }
     onSubmit(pin);
   };
+
+
 
   return (
     <div className="mt-4">
